@@ -29,7 +29,9 @@ pip install -r requirements.txt
 
 ```ini
 PINECONE_API_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-OPENAI_API_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
+OPENAI_API_KEY = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxx" or LLAMA_MODEL = "llama3"
+OLLAMA_BASE_URL = "http://127.0.0.1:11434"
+LLAMA_TEMPERATURE = "0.1"
 ```
 
 
@@ -127,4 +129,4 @@ open up localhost:
    - AWS_DEFAULT_REGION
    - ECR_REPO
    - PINECONE_API_KEY
-   - OPENAI_API_KEY
+   - OPENAI_API_KEY or llama3
