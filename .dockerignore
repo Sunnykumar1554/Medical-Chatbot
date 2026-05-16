@@ -1,0 +1,15 @@
+.env
+.git
+.github
+.gitignore
+__pycache__
+*.pyc
+medibot/
+research/
+data/
+medical_chatbot.egg-info/
+*.egg-info
+README.md
+LICENSE
+Dockerfile
+.dockerignore
