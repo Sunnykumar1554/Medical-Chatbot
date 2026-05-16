@@ -1,214 +1,1169 @@
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-
 <!DOCTYPE html>
-<html>
-	<head>
-		<title>Medical Chatbot</title>
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css')}}"/>
-	</head>
-	
-	
-	<body>
-		<div class="container-fluid h-100">
-			<div class="row justify-content-center h-100">		
-				<div class="col-md-8 col-xl-6 chat">
-					<div class="card">
-						<div class="card-header msg_head">
-							<div class="d-flex bd-highlight">
-								<div class="img_cont">
-									<img src="https://cdn-icons-png.flaticon.com/512/387/387569.png" class="rounded-circle user_img">
-									<span class="online_icon"></span>
-								</div>
-								<div class="user_info">
-									<span>Medical Chatbot</span>
-									<p>Ask me anything!</p>
-								</div>
-							</div>
-						</div>
+<html lang="en">
 
-						<!-- Category Selector -->
-						<div id="categoryBar" class="category-bar">
-							<div class="category-toggle" id="catToggleBtn">
-								<i class="fas fa-th-list"></i> Select Category
-								<span id="selectedCatLabel" class="selected-cat-label"></span>
-								<i class="fas fa-chevron-down cat-arrow"></i>
-							</div>
-							<div class="category-dropdown" id="catDropdown">
-								<!-- General -->
-								<div class="cat-group">
-									<div class="cat-group-title">🩺 General</div>
-									<div class="cat-items">
-										<div class="cat-item" onclick="selectCategory(this, 'General Symptoms')">General Symptoms</div>
-										<div class="cat-item" onclick="selectCategory(this, 'Fever & Chills')">Fever & Chills</div>
-										<div class="cat-item" onclick="selectCategory(this, 'Fatigue')">Fatigue</div>
-										<div class="cat-item" onclick="selectCategory(this, 'Weight Changes')">Weight Changes</div>
-									</div>
-								</div>
-								<!-- Head & Brain -->
-								<div class="cat-group">
-									<div class="cat-group-title">🧠 Head & Brain</div>
-									<div class="cat-items">
-										<div class="cat-item" onclick="selectCategory(this, 'Headache')">Headache</div>
-										<div class="cat-item" onclick="selectCategory(this, 'Dizziness')">Dizziness</div>
-										<div class="cat-item" onclick="selectCategory(this, 'Sleep Problems')">Sleep Problems</div>
-										<div class="cat-item" onclick="selectCategory(this, 'Seizures')">Seizures</div>
-									</div>
-								</div>
-								<!-- Heart & Chest -->
-								<div class="cat-group">
-									<div class="cat-group-title">❤️ Heart & Chest</div>
-									<div class="cat-items">
-										<div class="cat-item" onclick="selectCategory(this, 'Chest Pain')">Chest Pain</div>
-										<div class="cat-item" onclick="selectCategory(this, 'Palpitations')">Palpitations</div>
-										<div class="cat-item" onclick="selectCategory(this, 'High Blood Pressure')">High Blood Pressure</div>
-									</div>
-								</div>
-								<!-- Stomach -->
-								<div class="cat-group">
-									<div class="cat-group-title">🤢 Stomach</div>
-									<div class="cat-items">
-										<div class="cat-item" onclick="selectCategory(this, 'Stomach Pain')">Stomach Pain</div>
-										<div class="cat-item" onclick="selectCategory(this, 'Nausea')">Nausea</div>
-										<div class="cat-item" onclick="selectCategory(this, 'Diarrhea')">Diarrhea</div>
-										<div class="cat-item" onclick="selectCategory(this, 'Constipation')">Constipation</div>
-									</div>
-								</div>
-								<!-- Mental Health -->
-								<div class="cat-group">
-									<div class="cat-group-title">🧘 Mental Health</div>
-									<div class="cat-items">
-										<div class="cat-item" onclick="selectCategory(this, 'Anxiety')">Anxiety</div>
-										<div class="cat-item" onclick="selectCategory(this, 'Depression')">Depression</div>
-										<div class="cat-item" onclick="selectCategory(this, 'Panic Attacks')">Panic Attacks</div>
-									</div>
-								</div>
-								<!-- Emergency -->
-								<div class="cat-group">
-									<div class="cat-group-title">🚨 Emergency</div>
-									<div class="cat-items">
-										<div class="cat-item emergency-item" onclick="selectCategory(this, 'Severe Chest Pain')">Severe Chest Pain</div>
-										<div class="cat-item emergency-item" onclick="selectCategory(this, 'Stroke')">Stroke</div>
-										<div class="cat-item emergency-item" onclick="selectCategory(this, 'Unconscious')">Unconscious</div>
-									</div>
-								</div>
-								<div class="cat-clear" onclick="clearCategory()">✕ Clear Selection</div>
-							</div>
-						</div>
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>MediAssist</title>
+	<link href="https://fonts.bunny.net/css?family=geist:300,400,500,600,700" rel="stylesheet" />
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+	<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+</head>
 
-						<div id="messageFormeight" class="card-body msg_card_body">
-						
-						
+<body>
+	<!-- Hidden file input — triggered by the Rx upload button -->
+	<input type="file" id="rxFileInput" accept="image/*" style="display:none">
+
+	<!-- ════════════════ SIDEBAR ════════════════ -->
+	<aside class="sidebar" id="sidebar">
+		<div class="sb-head">
+			<button class="icon-btn" id="sidebarClose">
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+					<line x1="9" y1="3" x2="9" y2="21" />
+				</svg>
+			</button>
+			<button class="icon-btn" onclick="newChat()" title="New chat">
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<path d="M12 20h9" />
+					<path d="M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z" />
+				</svg>
+			</button>
+		</div>
+		<div class="sb-label">Today</div>
+		<div class="sb-list">
+			<div class="sb-item active" id="currentSessionBtn" onclick="newChat()">
+				<i class="fas fa-comment-medical"></i>
+				<span>Current session</span>
+			</div>
+		</div>
+		<div class="sb-label" style="margin-top:10px;display:flex;align-items:center;justify-content:space-between">
+			<span>Past Conversations</span>
+			<button class="sb-clear-all-btn" id="clearAllBtn" onclick="confirmClearAll()" title="Clear all history">
+				<i class="fas fa-trash-alt"></i>
+			</button>
+		</div>
+		<div class="sb-list" id="historyList">
+			<div class="sb-item" style="opacity:0.4;font-size:12px;padding:6px 14px">
+				<i class="fas fa-clock"></i> <span>Loading…</span>
+			</div>
+		</div>
+		<div class="sb-footer">
+			<div class="sb-user" onclick="document.getElementById('profileModal').classList.add('open')"
+				title="Edit profile" style="cursor:pointer">
+				<div class="sb-avatar"><i class="fas fa-user"></i></div>
+				<div style="display:flex;flex-direction:column;gap:1px;overflow:hidden">
+					<span style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">
+						{{ user.username if user else 'Guest' }}
+					</span>
+					<span style="font-size:11px;opacity:0.5;white-space:nowrap">
+						{% if user and user.age %}Age {{ user.age|int }}{% endif %}
+						{% if user and user.age and user.gender %} · {% endif %}
+						{% if user and user.gender %}{{ user.gender }}{% endif %}
+						{% if not user or not user.age %}Click to set profile{% endif %}
+					</span>
+				</div>
+			</div>
+			<div style="display:flex;gap:6px;padding:6px 12px 10px">
+				<button onclick="document.getElementById('profileModal').classList.add('open')"
+					style="flex:1;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.7);border-radius:8px;padding:6px;font-size:12px;cursor:pointer">
+					<i class="fas fa-user-cog"></i> Profile
+				</button>
+				<a href="/logout"
+					style="flex:1;background:rgba(231,76,60,0.15);border:1px solid rgba(231,76,60,0.3);color:#ff8a80;border-radius:8px;padding:6px;font-size:12px;cursor:pointer;text-align:center;text-decoration:none">
+					<i class="fas fa-sign-out-alt"></i> Logout
+				</a>
+			</div>
+		</div>
+	</aside>
+
+	<!-- ════════════════ MAIN ════════════════ -->
+	<main class="main" id="main">
+
+		<!-- Topbar -->
+		<header class="topbar">
+			<!-- <button class="icon-btn" id="sidebarClose">
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+					<line x1="9" y1="3" x2="9" y2="21" />
+				</svg>
+			</button> -->
+			<button class="icon-btn" id="sidebarOpen" style="display:none">
+				<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+					<rect x="3" y="3" width="18" height="18" rx="2" ry="2" />
+					<line x1="9" y1="3" x2="9" y2="21" />
+				</svg>
+			</button>
+			<div class="topbar-title">
+				MediAssist <span class="model-tag">Medical AI</span>
+			</div>
+			<div class="topbar-right">
+				{% if user and (not user.age or not user.gender) %}
+				<button class="share-btn" onclick="document.getElementById('profileModal').classList.add('open')"
+					style="background:rgba(255,193,7,0.15);border-color:rgba(255,193,7,0.4);color:#ffd54f">
+					<i class="fas fa-exclamation-circle" style="font-size:11px"></i> Complete Profile
+				</button>
+				{% endif %}
+				<button class="icon-btn tts-btn" id="ttsToggle" title="Mute bot voice">
+					<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+						stroke-linecap="round" stroke-linejoin="round">
+						<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+						<path d="M19.07 4.93a10 10 0 0 1 0 14.14" />
+						<path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+					</svg>
+				</button>
+				<button class="share-btn"><i class="fas fa-arrow-up-from-bracket" style="font-size:12px"></i>
+					Share</button>
+				<button class="icon-btn"><i class="fas fa-ellipsis-h"></i></button>
+			</div>
+		</header>
+
+		<!-- Feed -->
+		<div class="feed" id="messageFormeight"></div>
+
+		<!-- Scroll pill -->
+		<button class="scroll-pill" id="scrollBtn" onclick="scrollToBottom()">
+			<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+				<polyline points="6 9 12 15 18 9" />
+			</svg>
+		</button>
+
+		<!-- Prescription preview strip: visible after image is selected -->
+		<div id="rx-preview-strip">
+			<img id="rx-preview-thumb" src="" alt="prescription preview">
+			<div class="rx-preview-info">
+				<span class="rx-preview-name" id="rx-preview-name">prescription.jpg</span>
+				<span class="rx-preview-label">📋 Prescription ready to analyze</span>
+			</div>
+			<button class="rx-cancel-btn" onclick="cancelRxUpload()" title="Remove image">✕</button>
+		</div>
+
+		<!-- ── Composer ── -->
+		<div class="composer-outer">
+			<div class="composer" id="composerBox">
+
+				<!-- Prescription upload button -->
+				<div class="rx-zone" style="flex-shrink:0;align-self:flex-end;margin-bottom:2px;margin-right:6px">
+					<button class="rx-upload-btn" id="rxUploadBtn" type="button">
+						<i class="fas fa-cloud-upload-alt" style="font-size:13px"></i>
+						<span class="rx-tooltip">📋 Upload Prescription</span>
+					</button>
+				</div>
+
+				<!-- + button -->
+				<div class="plus-zone" id="plusZone">
+					<button class="plus-btn" id="plusBtn">
+						<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+							stroke-width="2.8">
+							<line x1="12" y1="5" x2="12" y2="19" />
+							<line x1="5" y1="12" x2="19" y2="12" />
+						</svg>
+					</button>
+
+					<!-- Category popup -->
+					<div class="cat-popup" id="catPopup">
+						<div class="cat-popup-header">
+							<span class="cat-popup-title">Symptom Category</span>
+							<span id="selectedCatLabel" class="sel-badge"></span>
 						</div>
-						<div class="card-footer">
-							<form id="messageArea" class="input-group">
-                                <input type="text" id="text" name="msg" placeholder="Type your message..." autocomplete="off" class="form-control type_msg" required/>
-								<div class="input-group-append">
-									<button type="submit" id="send" class="input-group-text send_btn"><i class="fas fa-location-arrow"></i></button>
+						<div class="cat-scroll">
+							<!-- General -->
+							<div class="cat-group">
+								<div class="cat-group-title">🩺 General</div>
+								<div class="cat-chips">
+									<div class="cat-chip" onclick="selectCategory(this,'General Symptoms')">General
+										Symptoms</div>
+									<div class="cat-chip" onclick="selectCategory(this,'Fever & Chills')">Fever &amp;
+										Chills</div>
+									<div class="cat-chip" onclick="selectCategory(this,'Fatigue')">Fatigue</div>
+									<div class="cat-chip" onclick="selectCategory(this,'Weight Changes')">Weight Changes
+									</div>
 								</div>
-							</form>
+							</div>
+							<!-- Head -->
+							<div class="cat-group">
+								<div class="cat-group-title">🧠 Head &amp; Brain</div>
+								<div class="cat-chips">
+									<div class="cat-chip" onclick="selectCategory(this,'Headache')">Headache</div>
+									<div class="cat-chip" onclick="selectCategory(this,'Dizziness')">Dizziness</div>
+									<div class="cat-chip" onclick="selectCategory(this,'Sleep Problems')">Sleep Problems
+									</div>
+									<div class="cat-chip" onclick="selectCategory(this,'Seizures')">Seizures</div>
+								</div>
+							</div>
+							<!-- Heart -->
+							<div class="cat-group">
+								<div class="cat-group-title">❤️ Heart &amp; Chest</div>
+								<div class="cat-chips">
+									<div class="cat-chip" onclick="selectCategory(this,'Chest Pain')">Chest Pain</div>
+									<div class="cat-chip" onclick="selectCategory(this,'Palpitations')">Palpitations
+									</div>
+									<div class="cat-chip" onclick="selectCategory(this,'High Blood Pressure')">High
+										Blood Pressure</div>
+								</div>
+							</div>
+							<!-- Stomach -->
+							<div class="cat-group">
+								<div class="cat-group-title">🤢 Stomach</div>
+								<div class="cat-chips">
+									<div class="cat-chip" onclick="selectCategory(this,'Stomach Pain')">Stomach Pain
+									</div>
+									<div class="cat-chip" onclick="selectCategory(this,'Nausea')">Nausea</div>
+									<div class="cat-chip" onclick="selectCategory(this,'Diarrhea')">Diarrhea</div>
+									<div class="cat-chip" onclick="selectCategory(this,'Constipation')">Constipation
+									</div>
+								</div>
+							</div>
+							<!-- Mental -->
+							<div class="cat-group">
+								<div class="cat-group-title">🧘 Mental Health</div>
+								<div class="cat-chips">
+									<div class="cat-chip" onclick="selectCategory(this,'Anxiety')">Anxiety</div>
+									<div class="cat-chip" onclick="selectCategory(this,'Depression')">Depression</div>
+									<div class="cat-chip" onclick="selectCategory(this,'Panic Attacks')">Panic Attacks
+									</div>
+								</div>
+							</div>
+							<!-- Emergency -->
+							<div class="cat-group">
+								<div class="cat-group-title">🚨 Emergency</div>
+								<div class="cat-chips">
+									<div class="cat-chip emergency" onclick="selectCategory(this,'Severe Chest Pain')">
+										Severe Chest Pain</div>
+									<div class="cat-chip emergency" onclick="selectCategory(this,'Stroke')">Stroke</div>
+									<div class="cat-chip emergency" onclick="selectCategory(this,'Unconscious')">
+										Unconscious</div>
+								</div>
+							</div>
+							<div class="cat-clear-row" onclick="clearCategory()">✕ Clear selection</div>
 						</div>
 					</div>
 				</div>
+
+				<!-- Textarea -->
+				<textarea id="text" name="msg" placeholder="Ask anything" rows="1" autocomplete="off"></textarea>
+
+				<!-- Mic button -->
+				<button class="mic-btn" id="micBtn" title="Voice input">
+					<svg id="micIcon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+						stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+						<path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+						<path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+						<line x1="12" y1="19" x2="12" y2="23" />
+						<line x1="8" y1="23" x2="16" y2="23" />
+					</svg>
+				</button>
+
+				<!-- Send -->
+				<button class="send-btn" id="send" disabled>
+					<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+						stroke-linecap="round" stroke-linejoin="round">
+						<line x1="12" y1="19" x2="12" y2="5" />
+						<polyline points="5 12 12 5 19 12" />
+					</svg>
+				</button>
+			</div>
+			<p class="footer-note">MediAssist can make mistakes. Check important info. Consult a qualified doctor for
+				medical decisions.</p>
+		</div>
+
+		<!-- ── Voice modal overlay ── -->
+		<div class="voice-modal" id="voiceModal">
+			<div class="voice-card">
+				<div class="voice-orb" id="voiceOrb">
+					<div class="orb-ring r1"></div>
+					<div class="orb-ring r2"></div>
+					<div class="orb-ring r3"></div>
+					<svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"
+						stroke-linecap="round" stroke-linejoin="round">
+						<path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+						<path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+						<line x1="12" y1="19" x2="12" y2="23" />
+						<line x1="8" y1="23" x2="16" y2="23" />
+					</svg>
+				</div>
+				<div class="voice-status" id="voiceStatus">Listening…</div>
+				<div class="voice-transcript" id="voiceTranscript">Say something…</div>
+				<div class="voice-actions">
+					<button class="voice-cancel-btn" id="voiceCancelBtn">Cancel</button>
+					<button class="voice-send-btn" id="voiceSendBtn" disabled>Send</button>
+				</div>
 			</div>
 		</div>
-		
-		<script>
-			var selectedCategory = '';
 
-			// Toggle dropdown open/close
-			$('#catToggleBtn').on('click', function(e) {
-				e.stopPropagation();
-				$('#catDropdown').toggleClass('open');
-				$('.cat-arrow').toggleClass('open');
+	</main>
+
+	<!-- ════════════════ PROFILE MODAL ════════════════ -->
+	<div class="voice-modal" id="profileModal" style="z-index:2000">
+		<div class="voice-card" style="max-width:420px;padding:32px;text-align:left">
+			<div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:22px">
+				<span style="color:#fff;font-size:16px;font-weight:600"><i class="fas fa-user-cog"></i> &nbsp;Edit
+					Profile</span>
+				<button onclick="document.getElementById('profileModal').classList.remove('open')"
+					style="background:none;border:none;color:rgba(255,255,255,0.5);font-size:20px;cursor:pointer">✕</button>
+			</div>
+			<form method="POST" action="/profile">
+				<div style="margin-bottom:16px">
+					<label
+						style="display:block;color:rgba(255,255,255,0.6);font-size:13px;margin-bottom:6px">Age</label>
+					<input type="number" name="age" min="1" max="120"
+						value="{{ user.age|int if user and user.age else '' }}" placeholder="e.g. 28"
+						style="width:100%;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.15);color:#fff;border-radius:10px;padding:10px 14px;font-size:14px;outline:none">
+				</div>
+				<div style="margin-bottom:22px">
+					<label
+						style="display:block;color:rgba(255,255,255,0.6);font-size:13px;margin-bottom:6px">Gender</label>
+					<select name="gender"
+						style="width:100%;background:rgba(30,34,51,0.97);border:1px solid rgba(255,255,255,0.15);color:#fff;border-radius:10px;padding:10px 14px;font-size:14px;outline:none">
+						<option value="">Select…</option>
+						{% set g = user.gender if user else '' %}
+						<option value="Male" {% if g=='Male' %}selected{% endif %}>Male</option>
+						<option value="Female" {% if g=='Female' %}selected{% endif %}>Female</option>
+						<option value="Non-binary" {% if g=='Non-binary' %}selected{% endif %}>Non-binary</option>
+						<option value="Prefer not to say" {% if g=='Prefer not to say' %}selected{% endif %}>Prefer not
+							to say</option>
+					</select>
+				</div>
+				<div style="display:flex;gap:10px">
+					<button type="submit"
+						style="flex:1;background:#52acff;border:none;color:#fff;border-radius:10px;padding:10px;font-weight:600;font-size:14px;cursor:pointer">
+						Save Changes
+					</button>
+					<button type="button" onclick="document.getElementById('profileModal').classList.remove('open')"
+						style="flex:1;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);border-radius:10px;padding:10px;font-size:14px;cursor:pointer">
+						Cancel
+					</button>
+				</div>
+			</form>
+		</div>
+	</div>
+
+	<!-- ════════════════ DELETE CONFIRMATION MODAL ════════════════ -->
+	<div class="voice-modal" id="deleteModal" style="z-index:2100">
+		<div class="voice-card" style="max-width:380px;padding:28px 32px;text-align:center">
+			<div
+				style="width:56px;height:56px;border-radius:50%;background:rgba(239,68,68,0.12);display:flex;align-items:center;justify-content:center;margin:0 auto 16px">
+				<i class="fas fa-trash-alt" style="font-size:22px;color:#ef4444"></i>
+			</div>
+			<div style="font-size:16px;font-weight:600;color:#fff;margin-bottom:8px" id="deleteModalTitle">Delete
+				Conversation?</div>
+			<div style="font-size:13px;color:rgba(255,255,255,0.5);margin-bottom:22px;line-height:1.5"
+				id="deleteModalDesc">This action cannot be undone. The conversation will be permanently removed from
+				your history.</div>
+			<div style="display:flex;gap:10px">
+				<button onclick="closeDeleteModal()"
+					style="flex:1;background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);border-radius:10px;padding:10px;font-size:14px;font-weight:500;cursor:pointer;font-family:var(--font)">Cancel</button>
+				<button id="deleteConfirmBtn" onclick="executeDelete()"
+					style="flex:1;background:#ef4444;border:none;color:#fff;border-radius:10px;padding:10px;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--font);transition:background .15s">Delete</button>
+			</div>
+		</div>
+	</div>
+
+	<script>
+		/* ─── Sidebar ─────────────────────────────────────────────── */
+		var sbOpen = true;
+		function setSidebar(open) {
+			sbOpen = open;
+			document.getElementById('sidebar').classList.toggle('sb-collapsed', !open);
+			// topbar toggle button: show expand icon when collapsed, collapse icon when open
+			document.getElementById('sidebarClose').style.display = open ? '' : 'none';
+			document.getElementById('sidebarOpen').style.display = open ? 'none' : '';
+		}
+		document.getElementById('sidebarClose').onclick = () => setSidebar(false);
+		document.getElementById('sidebarOpen').onclick = () => setSidebar(true);
+		setSidebar(true);
+
+		function newChat() { $('#messageFormeight').empty(); appendWelcome(); }
+
+		/* ─── + Category popup ────────────────────────────────── */
+		var selectedCategory = '';
+
+		document.getElementById('plusBtn').addEventListener('click', function (e) {
+			e.stopPropagation();
+			document.getElementById('catPopup').classList.toggle('open');
+		});
+		document.addEventListener('click', function (e) {
+			if (!e.target.closest('#plusZone')) document.getElementById('catPopup').classList.remove('open');
+		});
+
+		function selectCategory(el, cat) {
+			document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('selected'));
+			el.classList.add('selected');
+			selectedCategory = cat;
+			var badge = document.getElementById('selectedCatLabel');
+			badge.textContent = cat;
+			badge.classList.add('visible');
+			document.getElementById('plusBtn').classList.add('active');
+			document.getElementById('catPopup').classList.remove('open');
+			document.getElementById('text').placeholder = 'Tell me about your ' + cat.toLowerCase() + '…';
+			document.getElementById('text').focus();
+		}
+		function clearCategory() {
+			document.querySelectorAll('.cat-chip').forEach(c => c.classList.remove('selected'));
+			selectedCategory = '';
+			var badge = document.getElementById('selectedCatLabel');
+			badge.textContent = '';
+			badge.classList.remove('visible');
+			document.getElementById('plusBtn').classList.remove('active');
+			document.getElementById('text').placeholder = 'Ask anything';
+			document.getElementById('catPopup').classList.remove('open');
+		}
+
+		/* ─── Textarea ────────────────────────────────────────── */
+		$('#text').on('input', function () {
+			this.style.height = 'auto';
+			this.style.height = Math.min(this.scrollHeight, 200) + 'px';
+			$('#send').prop('disabled', !this.value.trim());
+		}).on('keydown', function (e) {
+			if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); if ($(this).val().trim() || selectedRxFile) submitMsg(); }
+		});
+		$('#send').on('click', submitMsg);
+
+		/* ─── Scroll pill ─────────────────────────────────────── */
+		var feed = document.getElementById('messageFormeight');
+		feed.addEventListener('scroll', function () {
+			var near = feed.scrollHeight - feed.scrollTop - feed.clientHeight < 120;
+			document.getElementById('scrollBtn').classList.toggle('visible', !near);
+		});
+		function scrollToBottom() { feed.scrollTo({ top: feed.scrollHeight, behavior: 'smooth' }); }
+
+		/* ─── Welcome ─────────────────────────────────────────── */
+		function appendWelcome() {
+			var userName = '{{ user.username if user else "there" }}';
+			var hasProfile = {{ 'true' if (user and user.age and user.gender) else 'false'
+		}};
+		var profileNote = hasProfile
+			? 'I have your profile on record, so I can tailor my advice right away.'
+			: 'Tip: set your <strong>age &amp; gender</strong> in the Profile panel for more personalised advice.';
+
+		$('#messageFormeight').append(`
+		<div class="msg bot-msg fade-in">
+			<div class="bot-avatar-wrap"><div class="bot-av">M</div></div>
+			<div class="msg-body">
+				<p>Hello, <strong>${esc(userName)}</strong>! I'm <strong>MediAssist</strong> 👋 — your AI-powered medical assistant.</p>
+				<p>${profileNote}</p>
+				<p>Tap the <strong>+</strong> button to pick a symptom category, describe how you're feeling, or use the <strong>📋</strong> button to upload a prescription image for a plain-language breakdown.</p>
+				<p class="warn-note">⚠️ I'm an AI — not a real doctor. For emergencies, call your local emergency number immediately.</p>
+			</div>
+		</div>`);
+		}
+
+		/* ─── Load sidebar history ────────────────────────────── */
+		var allHistoryData = [];  // store full history for click-to-view
+		var isViewingHistory = false;
+
+		/**
+		 * Group message pairs into "sessions".
+		 * A new session starts whenever there's a gap of > 10 minutes
+		 * between consecutive user messages.
+		 */
+		function groupIntoSessions(pairs) {
+			if (!pairs.length) return [];
+			// pairs come in newest-first, reverse to get chronological order
+			var chronoPairs = pairs.slice().reverse();
+			var sessions = [];
+			var currentSession = [chronoPairs[0]];
+
+			for (var i = 1; i < chronoPairs.length; i++) {
+				var prevTs = currentSession[currentSession.length - 1].user.timestamp || 0;
+				var currTs = chronoPairs[i].user.timestamp || 0;
+				var gap = Math.abs(currTs - prevTs);
+				if (gap > 600) { // 10 minute gap = new session
+					sessions.push(currentSession);
+					currentSession = [chronoPairs[i]];
+				} else {
+					currentSession.push(chronoPairs[i]);
+				}
+			}
+			sessions.push(currentSession);
+			sessions.reverse(); // newest session first
+			return sessions;
+		}
+
+		function loadSidebarHistory() {
+			$.get('/history', function (data) {
+				allHistoryData = data || [];
+				if (!data || !data.length) {
+					$('#historyList').html('<div class="sb-item" style="opacity:0.4;font-size:12px;padding:6px 14px"><i class="fas fa-inbox"></i> <span>No history yet</span></div>');
+					return;
+				}
+				// Pair each user message with the bot response that follows it
+				var pairs = [];
+				for (var i = 0; i < data.length; i++) {
+					if (data[i].role === 'user') {
+						var botReply = (i + 1 < data.length && data[i + 1].role === 'bot') ? data[i + 1] : null;
+						pairs.push({ user: data[i], bot: botReply });
+					}
+				}
+				pairs.reverse(); // newest first
+
+				// Group into sessions
+				var sessions = groupIntoSessions(pairs);
+				window._historySessions = sessions;
+
+				var html = '';
+				sessions.slice(0, 15).forEach(function (session, idx) {
+					var firstMsg = session[0]; // oldest message in session (sessions are chrono order inside)
+					var preview = (firstMsg.user.content || '').substring(0, 38) + (firstMsg.user.content && firstMsg.user.content.length > 38 ? '…' : '');
+					var d = firstMsg.user.timestamp ? new Date(firstMsg.user.timestamp * 1000) : null;
+					var dateStr = d ? d.toLocaleDateString([], { month: 'short', day: 'numeric' }) : '';
+					var msgCount = session.length;
+					html += `<div class="sb-item sb-history-item" data-session-idx="${idx}" onclick="loadSession(${idx})" title="${esc(firstMsg.user.content || '')}">
+						<i class="fas fa-comment-medical"></i>
+						<span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1">${esc(preview)}</span>
+						${msgCount > 1 ? '<span style="font-size:10px;opacity:0.35;margin-left:2px;white-space:nowrap">' + msgCount + '</span>' : ''}
+						<span style="font-size:10px;opacity:0.4;margin-left:4px;white-space:nowrap">${dateStr}</span>
+						<button class="sb-delete-btn" onclick="event.stopPropagation();confirmDeleteSession(${idx})" title="Delete conversation">
+							<i class="fas fa-trash-alt"></i>
+						</button>
+					</div>`;
+				});
+				$('#historyList').html(html);
+
+				// Keep pairs for compatibility with delete
+				window._historyPairs = pairs;
+			}).fail(function () {
+				$('#historyList').html('<div class="sb-item" style="opacity:0.4;font-size:12px;padding:6px 14px"><i class="fas fa-exclamation-circle"></i> <span>Could not load</span></div>');
 			});
+		}
 
-			// Close dropdown when clicking outside
-			$(document).on('click', function(e) {
-				if (!$(e.target).closest('#categoryBar').length) {
-					$('#catDropdown').removeClass('open');
-					$('.cat-arrow').removeClass('open');
+		/* ─── Load a specific session into the chat area ──────── */
+		function loadSession(sessionIdx) {
+			var sessions = window._historySessions;
+			if (!sessions || sessionIdx >= sessions.length) return;
+
+			isViewingHistory = true;
+			var session = sessions[sessionIdx]; // array of pairs in chrono order
+
+			// Highlight active sidebar item
+			$('.sb-item').removeClass('active');
+			$('.sb-history-item[data-session-idx="' + sessionIdx + '"]').addClass('active');
+
+			// Clear chat area
+			var feed = $('#messageFormeight');
+			feed.empty();
+
+			// Add a "Past Conversation" header
+			feed.append(`
+		<div class="history-header fade-in">
+			<i class="fas fa-history"></i>
+			<span>Past Conversation (${session.length} message${session.length > 1 ? 's' : ''})</span>
+			<button class="history-back-btn" onclick="newChat()">Back to current session</button>
+		</div>`);
+
+			marked.setOptions({ breaks: true, gfm: true });
+
+		// Show only this session's pairs
+		session.forEach(function (pair) {
+			var userContent = pair.user.content || '';
+			var isPrescription = userContent.indexOf('[PRESCRIPTION]') === 0;
+
+			if (isPrescription) {
+				var rxLabel = userContent.substring('[PRESCRIPTION] '.length);
+				feed.append('<div class="msg user-msg fade-in"><div class="msg-body" style="padding:0;background:transparent"><div class="rx-user-bubble"><div><div style="font-weight:600;font-size:12px;color:#52acff">' + esc(rxLabel) + '</div></div></div></div></div>');
+			} else {
+				feed.append('<div class="msg user-msg fade-in"><div class="msg-body">' + esc(userContent) + '</div></div>');
+			}
+
+			if (pair.bot) {
+				var botContent = pair.bot.content || '';
+				var msgId = 'hist-msg-' + Math.random().toString(36).substr(2, 9);
+				var isRxAnalysis = botContent.indexOf('[PRESCRIPTION_ANALYSIS]') === 0;
+
+				if (isRxAnalysis) {
+					var rawAnalysis = botContent.substring(botContent.indexOf('\n') + 1);
+					if (rawAnalysis === botContent) rawAnalysis = botContent.replace('[PRESCRIPTION_ANALYSIS]', '');
+					var analysisHtml = marked.parse(rawAnalysis);
+					feed.append('<div class="msg bot-msg fade-in"><div class="bot-avatar-wrap"><div class="bot-av">M</div></div><div class="msg-content-wrap"><div class="msg-body"><div class="rx-card"><div class="rx-card-header"><i class="fas fa-prescription-bottle-alt"></i><span>Prescription Analysis</span></div><div class="rx-card-body" id="' + msgId + '">' + analysisHtml + '</div><div class="rx-card-footer"><i class="fas fa-exclamation-triangle" style="margin-top:2px;flex-shrink:0"></i> For informational purposes only. Always consult your doctor or pharmacist.</div></div></div><div class="msg-actions"><button class="msg-action-btn" onclick="copyResponse(\x27' + msgId + '\x27)" title="Copy response"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><button class="msg-action-btn" onclick="readAloud(\x27' + msgId + '\x27)" title="Read aloud"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg><span>Read aloud</span></button></div></div></div>');
+				} else {
+					feed.append('<div class="msg bot-msg fade-in"><div class="bot-avatar-wrap"><div class="bot-av">M</div></div><div class="msg-content-wrap"><div class="msg-body msg_markdown" id="' + msgId + '">' + marked.parse(botContent) + '</div><div class="msg-actions"><button class="msg-action-btn" onclick="copyResponse(\x27' + msgId + '\x27)" title="Copy response"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span></button><button class="msg-action-btn" onclick="readAloud(\x27' + msgId + '\x27)" title="Read aloud"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg><span>Read aloud</span></button></div></div></div>');
+				}
+			}
+		});
+
+			scrollToBottom();
+		}
+
+		// Keep old function name as alias for backward compatibility
+		function loadConversation(idx) { loadSession(idx); }
+
+		/* ─── New chat / back to current session ─────────────── */
+		function newChat() {
+			isViewingHistory = false;
+			$('.sb-item').removeClass('active');
+			$('#currentSessionBtn').addClass('active');
+
+			var feed = $('#messageFormeight');
+			feed.empty();
+			appendWelcome();
+			loadSidebarHistory();
+		}
+
+		/* ─── Submit ──────────────────────────────────────────── */
+		function submitMsg() {
+			// Route to prescription flow if an image is staged
+			if (selectedRxFile) {
+				handlePrescriptionUpload();
+				return;
+			}
+
+			var raw = $('#text').val().trim();
+			if (!raw) return;
+			var send = selectedCategory ? '[Patient selected category: ' + selectedCategory + '] ' + raw : raw;
+
+			$('#messageFormeight').append(`<div class="msg user-msg fade-in"><div class="msg-body">${esc(raw)}</div></div>`);
+			$('#text').val('').css('height', 'auto');
+			$('#send').prop('disabled', true);
+			scrollToBottom();
+
+			$('#messageFormeight').append(`
+	<div class="msg bot-msg fade-in" id="typing-indicator">
+		<div class="bot-avatar-wrap"><div class="bot-av">M</div></div>
+		<div class="msg-body"><div class="typing-dots"><span></span><span></span><span></span></div></div>
+	</div>`);
+			scrollToBottom();
+
+			$.ajax({ data: { msg: send }, type: 'POST', url: '/get' })
+				.done(function (data) {
+					$('#typing-indicator').remove();
+					marked.setOptions({ breaks: true, gfm: true });
+					var msgId = 'bot-msg-' + Date.now();
+					$('#messageFormeight').append(`
+		<div class="msg bot-msg fade-in">
+			<div class="bot-avatar-wrap"><div class="bot-av">M</div></div>
+			<div class="msg-content-wrap">
+				<div class="msg-body msg_markdown" id="${msgId}">${marked.parse(data)}</div>
+				<div class="msg-actions">
+					<button class="msg-action-btn" onclick="copyResponse('${msgId}')" title="Copy response">
+						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+						<span>Copy</span>
+					</button>
+					<button class="msg-action-btn good-btn" onclick="rateResponse(this,'good')" title="Good response">
+						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg>
+						<span>Good</span>
+					</button>
+					<button class="msg-action-btn bad-btn" onclick="rateResponse(this,'bad')" title="Bad response">
+						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/><path d="M17 2h2.67A2.31 2.31 0 0 1 22 4v7a2.31 2.31 0 0 1-2.33 2H17"/></svg>
+						<span>Bad</span>
+					</button>
+					<button class="msg-action-btn" onclick="shareResponse('${msgId}')" title="Share response">
+						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+						<span>Share</span>
+					</button>
+					<button class="msg-action-btn" onclick="readAloud('${msgId}')" title="Read aloud">
+						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/></svg>
+						<span>Read aloud</span>
+					</button>
+				</div>
+			</div>
+		</div>`);
+					scrollToBottom();
+					speakText(data);   // 🔊 bot speaks the response
+				})
+				.fail(function () {
+					$('#typing-indicator').remove();
+					$('#messageFormeight').append(`
+		<div class="msg bot-msg fade-in">
+			<div class="bot-avatar-wrap"><div class="bot-av">M</div></div>
+			<div class="msg-body err-txt">Something went wrong. Please try again.</div>
+		</div>`);
+					scrollToBottom();
+				});
+		}
+
+		function esc(t) { return t.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+
+		/* ─── Response action handlers ─────────────────────── */
+		function copyResponse(msgId) {
+			var el = document.getElementById(msgId);
+			if (!el) return;
+			var text = el.innerText;
+
+			function onSuccess() {
+				// Find the button that triggered this — walk up from the msg-body
+				var wrap = el.closest('.msg-content-wrap') || el.closest('.msg-body');
+				var btn = wrap ? wrap.querySelector('.msg-action-btn[title="Copy response"]') : null;
+				if (btn) {
+					var label = btn.querySelector('span');
+					label.textContent = 'Copied!';
+					btn.classList.add('active');
+					setTimeout(function () { label.textContent = 'Copy'; btn.classList.remove('active'); }, 1500);
+				}
+			}
+
+			// Try modern clipboard API first (requires secure context)
+			if (navigator.clipboard && window.isSecureContext) {
+				navigator.clipboard.writeText(text).then(onSuccess).catch(function () {
+					fallbackCopy(text, onSuccess);
+				});
+			} else {
+				fallbackCopy(text, onSuccess);
+			}
+		}
+
+		function fallbackCopy(text, callback) {
+			var ta = document.createElement('textarea');
+			ta.value = text;
+			ta.style.position = 'fixed';
+			ta.style.left = '-9999px';
+			ta.style.top = '-9999px';
+			document.body.appendChild(ta);
+			ta.focus();
+			ta.select();
+			try {
+				document.execCommand('copy');
+				if (callback) callback();
+			} catch (e) {
+				console.error('Copy failed:', e);
+			}
+			document.body.removeChild(ta);
+		}
+
+		function rateResponse(btn, type) {
+			var row = btn.closest('.msg-actions');
+			row.querySelectorAll('.good-btn, .bad-btn').forEach(function (b) { b.classList.remove('rated'); });
+			btn.classList.add('rated');
+			var label = btn.querySelector('span');
+			var orig = type === 'good' ? 'Good' : 'Bad';
+			label.textContent = type === 'good' ? 'Thanks!' : 'Noted';
+			setTimeout(function () { label.textContent = orig; }, 1500);
+		}
+
+		function shareResponse(msgId) {
+			var text = document.getElementById(msgId).innerText;
+			if (navigator.share) {
+				navigator.share({ title: 'MediAssist Response', text: text });
+			} else {
+				navigator.clipboard.writeText(text).then(function () {
+					var btn = document.querySelector(`[onclick="shareResponse('${msgId}')"]`);
+					var label = btn.querySelector('span');
+					label.textContent = 'Link copied!';
+					btn.classList.add('active');
+					setTimeout(function () { label.textContent = 'Share'; btn.classList.remove('active'); }, 1500);
+				});
+			}
+		}
+
+		function readAloud(msgId) {
+			var text = document.getElementById(msgId).innerText;
+			if (synthesis.speaking) { synthesis.cancel(); return; }
+			var utt = new SpeechSynthesisUtterance(text);
+			utt.lang = 'en-US'; utt.rate = 1.0;
+			var voices = synthesis.getVoices();
+			var pref = voices.find(function (v) { return v.name.includes('Google') || v.name.includes('Natural'); });
+			if (pref) utt.voice = pref;
+			var btn = document.querySelector(`[onclick="readAloud('${msgId}')"]`);
+			btn.classList.add('active');
+			btn.querySelector('span').textContent = 'Speaking...';
+			utt.onend = function () { btn.classList.remove('active'); btn.querySelector('span').textContent = 'Read aloud'; };
+			synthesis.speak(utt);
+		}
+
+		/* ═══════════════════════════════════════════════════════
+		   VOICE MODE  (Speech-to-Text + Text-to-Speech)
+		═══════════════════════════════════════════════════════ */
+		var recognition = null;
+		var synthesis = window.speechSynthesis;
+		var isListening = false;
+		var voiceFinalTxt = '';
+		var ttsEnabled = true;   // bot speaks responses aloud
+
+		/* ── Browser support check ── */
+		var SpeechRec = window.SpeechRecognition || window.webkitSpeechRecognition;
+		if (!SpeechRec) {
+			document.getElementById('micBtn').style.display = 'none'; // hide if unsupported
+		}
+
+		/* ── Open voice modal ── */
+		document.getElementById('micBtn').addEventListener('click', function () {
+			if (!SpeechRec) {
+				alert('Your browser does not support voice input.\nTry Chrome or Edge.');
+				return;
+			}
+			openVoiceModal();
+		});
+
+		function openVoiceModal() {
+			voiceFinalTxt = '';
+			document.getElementById('voiceTranscript').textContent = 'Say something…';
+			document.getElementById('voiceStatus').textContent = 'Listening…';
+			document.getElementById('voiceSendBtn').disabled = true;
+			document.getElementById('voiceModal').classList.add('open');
+			document.getElementById('voiceOrb').classList.add('listening');
+			startListening();
+		}
+
+		function closeVoiceModal() {
+			stopListening();
+			document.getElementById('voiceModal').classList.remove('open');
+			document.getElementById('voiceOrb').classList.remove('listening', 'done');
+		}
+
+		/* ── Cancel / Send buttons ── */
+		document.getElementById('voiceCancelBtn').onclick = closeVoiceModal;
+
+		document.getElementById('voiceSendBtn').onclick = function () {
+			var txt = voiceFinalTxt.trim();
+			if (!txt) return;
+			closeVoiceModal();
+			// inject into textarea and submit
+			$('#text').val(txt).trigger('input');
+			submitMsg();
+		};
+
+		/* ── Start recognition ── */
+		function startListening() {
+			if (!SpeechRec) return;
+			stopListening(); // clean up any old instance
+
+			recognition = new SpeechRec();
+			recognition.lang = 'en-US';
+			recognition.continuous = true;       // keep listening until stopped
+			recognition.interimResults = true;   // show partial results live
+
+			recognition.onstart = function () {
+				isListening = true;
+				document.getElementById('voiceStatus').textContent = 'Listening… (speak now)';
+			};
+
+			recognition.onresult = function (e) {
+				var interim = '';
+				var final = '';
+				for (var i = e.resultIndex; i < e.results.length; i++) {
+					var t = e.results[i][0].transcript;
+					if (e.results[i].isFinal) final += t;
+					else interim += t;
+				}
+				if (final) voiceFinalTxt += final + ' ';
+				var display = (voiceFinalTxt + interim).trim();
+				document.getElementById('voiceTranscript').textContent = display || 'Say something…';
+				document.getElementById('voiceSendBtn').disabled = !voiceFinalTxt.trim();
+			};
+
+			recognition.onerror = function (e) {
+				var msg = {
+					'no-speech': 'No speech detected. Try again.',
+					'audio-capture': 'Microphone not found.',
+					'not-allowed': 'Microphone permission denied.\nAllow mic access in browser settings.',
+					'network': 'Network error.',
+				}[e.error] || 'Error: ' + e.error;
+				document.getElementById('voiceStatus').textContent = msg;
+				document.getElementById('voiceOrb').classList.remove('listening');
+				document.getElementById('voiceOrb').classList.add('error');
+				isListening = false;
+			};
+
+			recognition.onend = function () {
+				isListening = false;
+				if (voiceFinalTxt.trim()) {
+					document.getElementById('voiceStatus').textContent = 'Done — review and send';
+					document.getElementById('voiceOrb').classList.remove('listening');
+					document.getElementById('voiceOrb').classList.add('done');
+					document.getElementById('voiceSendBtn').disabled = false;
+				} else {
+					document.getElementById('voiceStatus').textContent = 'Nothing heard. Tap mic again.';
+					document.getElementById('voiceOrb').classList.remove('listening');
+				}
+			};
+
+			recognition.start();
+		}
+
+		function stopListening() {
+			if (recognition) {
+				try { recognition.stop(); } catch (e) { }
+				recognition = null;
+			}
+			isListening = false;
+		}
+
+		/* ── Tap orb to restart listening ── */
+		document.getElementById('voiceOrb').addEventListener('click', function () {
+			if (isListening) {
+				stopListening();
+				document.getElementById('voiceStatus').textContent = 'Stopped. Tap to listen again.';
+				document.getElementById('voiceOrb').classList.remove('listening');
+			} else {
+				voiceFinalTxt = '';
+				document.getElementById('voiceTranscript').textContent = 'Say something…';
+				document.getElementById('voiceSendBtn').disabled = true;
+				document.getElementById('voiceOrb').classList.remove('done', 'error');
+				document.getElementById('voiceOrb').classList.add('listening');
+				startListening();
+			}
+		});
+
+		/* ── Close modal on backdrop click ── */
+		document.getElementById('voiceModal').addEventListener('click', function (e) {
+			if (e.target === this) closeVoiceModal();
+		});
+
+		/* ── Text-to-Speech: bot speaks responses ── */
+		function speakText(rawText) {
+			if (!ttsEnabled || !synthesis) return;
+			// strip markdown symbols for cleaner speech
+			var clean = rawText
+				.replace(/#{1,6}\s/g, '')
+				.replace(/\*\*(.*?)\*\*/g, '$1')
+				.replace(/\*(.*?)\*/g, '$1')
+				.replace(/`(.*?)`/g, '$1')
+				.replace(/^[-*]\s/gm, '')
+				.replace(/^\d+\.\s/gm, '')
+				.replace(/\n+/g, '. ')
+				.replace(/>\s?/g, '')
+				.trim();
+			synthesis.cancel(); // stop any ongoing speech
+			var utt = new SpeechSynthesisUtterance(clean);
+			utt.lang = 'en-US';
+			utt.rate = 1.0;
+			utt.pitch = 1.0;
+			// prefer a natural-sounding voice if available
+			var voices = synthesis.getVoices();
+			var preferred = voices.find(v =>
+				v.name.includes('Google') || v.name.includes('Natural') || v.name.includes('Neural')
+			);
+			if (preferred) utt.voice = preferred;
+			synthesis.speak(utt);
+		}
+
+		/* ── TTS toggle button in topbar ── */
+		document.getElementById('ttsToggle').addEventListener('click', function () {
+			ttsEnabled = !ttsEnabled;
+			this.classList.toggle('tts-off', !ttsEnabled);
+			this.title = ttsEnabled ? 'Mute bot voice' : 'Unmute bot voice';
+			if (!ttsEnabled) synthesis.cancel();
+		});
+
+		/* ─── Delete conversation handlers ─────────────────── */
+		var pendingDeleteAction = null; // { type: 'session', idx: N } or { type: 'all' }
+
+		function confirmDeleteSession(sessionIdx) {
+			pendingDeleteAction = { type: 'session', idx: sessionIdx };
+			var sessions = window._historySessions;
+			var session = sessions[sessionIdx];
+			var preview = session && session[0] ? (session[0].user.content || '').substring(0, 50) : '';
+			document.getElementById('deleteModalTitle').textContent = 'Delete Conversation?';
+			document.getElementById('deleteModalDesc').textContent = 'Delete "' + preview + (preview.length >= 50 ? '…' : '') + '"' + (session.length > 1 ? ' (' + session.length + ' messages)' : '') + '? This cannot be undone.';
+			document.getElementById('deleteConfirmBtn').textContent = 'Delete';
+			document.getElementById('deleteModal').classList.add('open');
+		}
+
+		// Keep old function name for backward compatibility
+		function confirmDeleteConversation(idx) { confirmDeleteSession(idx); }
+
+		function confirmClearAll() {
+			if (!window._historySessions || !window._historySessions.length) return;
+			pendingDeleteAction = { type: 'all' };
+			document.getElementById('deleteModalTitle').textContent = 'Clear All History?';
+			document.getElementById('deleteModalDesc').textContent = 'This will permanently delete all your past conversations. This action cannot be undone.';
+			document.getElementById('deleteConfirmBtn').textContent = 'Clear All';
+			document.getElementById('deleteModal').classList.add('open');
+		}
+
+		function closeDeleteModal() {
+			document.getElementById('deleteModal').classList.remove('open');
+			pendingDeleteAction = null;
+		}
+
+		function executeDelete() {
+			if (!pendingDeleteAction) return;
+			var btn = document.getElementById('deleteConfirmBtn');
+			btn.textContent = 'Deleting…';
+			btn.style.opacity = '0.6';
+			btn.style.pointerEvents = 'none';
+
+			if (pendingDeleteAction.type === 'all') {
+				$.ajax({
+					url: '/clear_history',
+					type: 'POST',
+					contentType: 'application/json',
+					data: JSON.stringify({})
+				}).always(function () {
+					btn.style.opacity = '1';
+					btn.style.pointerEvents = '';
+					closeDeleteModal();
+					newChat();
+				});
+			} else if (pendingDeleteAction.type === 'session') {
+				var sessions = window._historySessions;
+				var session = sessions[pendingDeleteAction.idx];
+				if (!session || !session.length) { closeDeleteModal(); return; }
+
+				// Collect ALL timestamps from every pair in this session
+				var timestamps = [];
+				session.forEach(function (pair) {
+					if (pair.user && pair.user.timestamp) timestamps.push(pair.user.timestamp);
+					if (pair.bot && pair.bot.timestamp) timestamps.push(pair.bot.timestamp);
+				});
+
+				$.ajax({
+					url: '/delete_conversation',
+					type: 'POST',
+					contentType: 'application/json',
+					data: JSON.stringify({ timestamps: timestamps })
+				}).always(function () {
+					btn.style.opacity = '1';
+					btn.style.pointerEvents = '';
+					closeDeleteModal();
+					if (isViewingHistory) {
+						newChat();
+					} else {
+						loadSidebarHistory();
+					}
+				});
+			}
+		}
+
+		// Close delete modal on backdrop click
+		document.getElementById('deleteModal').addEventListener('click', function (e) {
+			if (e.target === this) closeDeleteModal();
+		});
+
+		/* ═════════════════════════════════════════════════════
+		   PRESCRIPTION UPLOAD
+		═════════════════════════════════════════════════════ */
+		var selectedRxFile = null;
+
+		$('#rxUploadBtn').on('click', function () {
+			$('#rxFileInput').val('').trigger('click');
+		});
+
+		$('#rxFileInput').on('change', function () {
+			var file = this.files[0];
+			if (!file) return;
+
+			var allowed = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'image/bmp'];
+			if (!allowed.includes(file.type)) {
+				alert('Please upload a valid image file (JPG, PNG, WEBP, GIF, BMP).');
+				return;
+			}
+			if (file.size > 10 * 1024 * 1024) {
+				alert('File too large. Maximum size is 10 MB.');
+				return;
+			}
+
+			selectedRxFile = file;
+
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				$('#rx-preview-thumb').attr('src', e.target.result);
+				$('#rx-preview-name').text(file.name);
+				$('#rx-preview-strip').css('display', 'flex');
+			};
+			reader.readAsDataURL(file);
+
+			$('#text').attr('placeholder', 'Add a note (optional), then press Send…').focus();
+			$('#send').prop('disabled', false);
+		});
+
+		function cancelRxUpload() {
+			selectedRxFile = null;
+			$('#rxFileInput').val('');
+			$('#rx-preview-strip').hide();
+			$('#text').attr('placeholder', 'Ask anything');
+			$('#send').prop('disabled', !$('#text').val().trim());
+		}
+
+		function handlePrescriptionUpload() {
+			var note = $('#text').val().trim();
+			var file = selectedRxFile;
+
+			// Show user bubble with thumbnail
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				var thumbSrc = e.target.result;
+				var noteHtml = note ? '<span style="margin-left:4px">' + esc(note) + '</span>' : '';
+				$('#messageFormeight').append(`
+			<div class="msg user-msg fade-in">
+				<div class="msg-body" style="padding:0;background:transparent">
+					<div class="rx-user-bubble">
+						<img src="${thumbSrc}" alt="prescription">
+						<div>
+							<div style="font-weight:600;font-size:12px;color:#52acff">📋 Prescription uploaded</div>
+							${noteHtml}
+						</div>
+					</div>
+				</div>
+			</div>`);
+				scrollToBottom();
+			};
+			reader.readAsDataURL(file);
+
+			// Reset UI
+			$('#text').val('').css('height', 'auto');
+			cancelRxUpload();
+
+			// Show analyzing spinner
+			$('#messageFormeight').append(`
+			<div class="msg bot-msg fade-in" id="rx-analyzing-indicator">
+				<div class="bot-avatar-wrap"><div class="bot-av">M</div></div>
+				<div class="msg-body">
+					<div class="rx-analyzing">
+						<div class="rx-spinner"></div>
+						Analyzing your prescription…
+					</div>
+				</div>
+			</div>`);
+			scrollToBottom();
+
+			// POST image to Flask
+			var formData = new FormData();
+			formData.append('prescription', file);
+			if (note) formData.append('note', note);
+
+			$.ajax({
+				url: '/analyze-prescription',
+				type: 'POST',
+				data: formData,
+				processData: false,
+				contentType: false,
+				success: function (response) {
+					$('#rx-analyzing-indicator').remove();
+					if (response.error) {
+						$('#messageFormeight').append(`
+						<div class="msg bot-msg fade-in">
+							<div class="bot-avatar-wrap"><div class="bot-av">M</div></div>
+							<div class="msg-body"><div class="rx-error"><i class="fas fa-exclamation-circle"></i> ${esc(response.error)}</div></div>
+						</div>`);
+					} else {
+						$('#messageFormeight').append(`
+						<div class="msg bot-msg fade-in">
+							<div class="bot-avatar-wrap"><div class="bot-av">M</div></div>
+							<div class="msg-body">
+								<div class="rx-card">
+									<div class="rx-card-header">
+										<i class="fas fa-prescription-bottle-alt"></i>
+										<span>Prescription Analysis</span>
+									</div>
+									<div class="rx-card-body">${response.analysis}</div>
+									<div class="rx-card-footer">
+										<i class="fas fa-exclamation-triangle" style="margin-top:2px;flex-shrink:0"></i>
+										For informational purposes only. Always consult your doctor or pharmacist.
+									</div>
+								</div>
+							</div>
+						</div>`);
+					}
+					scrollToBottom();
+				},
+				error: function (xhr) {
+					$('#rx-analyzing-indicator').remove();
+					var msg = 'Analysis failed. Please try again.';
+					try { var j = JSON.parse(xhr.responseText); if (j.error) msg = j.error; } catch (e) { }
+					$('#messageFormeight').append(`
+					<div class="msg bot-msg fade-in">
+						<div class="bot-avatar-wrap"><div class="bot-av">M</div></div>
+						<div class="msg-body"><div class="rx-error"><i class="fas fa-exclamation-circle"></i> ${esc(msg)}</div></div>
+					</div>`);
+					scrollToBottom();
 				}
 			});
+		}
 
-			// Select a category
-			function selectCategory(el, category) {
-				$('.cat-item').removeClass('selected');
-				$(el).addClass('selected');
-				selectedCategory = category;
-				$('#selectedCatLabel').text(category).addClass('visible');
-				$('#catDropdown').removeClass('open');
-				$('.cat-arrow').removeClass('open');
-				// Auto-fill the input with the category as a starting prompt
-				$('#text').attr('placeholder', 'Tell me about your ' + category.toLowerCase() + '...');
-				$('#text').focus();
-			}
+		$(document).ready(function () { appendWelcome(); loadSidebarHistory(); });
+	</script>
+</body>
 
-			// Clear category selection
-			function clearCategory() {
-				$('.cat-item').removeClass('selected');
-				selectedCategory = '';
-				$('#selectedCatLabel').text('').removeClass('visible');
-				$('#catDropdown').removeClass('open');
-				$('.cat-arrow').removeClass('open');
-				$('#text').attr('placeholder', 'Type your message...');
-			}
-
-			$(document).ready(function() {
-				// Welcome message
-				var welcomeText = "Hello, and welcome to MediAssist Pro! 👋 I'm here to help you understand your symptoms better.<br><br>You can select a category above, or simply describe what you're feeling in your own words. I'll ask a few gentle questions to better understand your situation before sharing any thoughts.<br><br>Please remember — I'm an AI assistant, not a real doctor. For emergencies, always call your local emergency number immediately.";
-				var now = new Date();
-				var welcomeTime = now.getHours() + ":" + String(now.getMinutes()).padStart(2, '0');
-				var welcomeHtml = '<div class="d-flex justify-content-start mb-4"><div class="img_cont_msg"><img src="https://cdn-icons-png.flaticon.com/512/387/387569.png" class="rounded-circle user_img_msg"></div><div class="msg_cotainer">' + welcomeText + '<span class="msg_time">' + welcomeTime + '</span></div></div>';
-				$("#messageFormeight").append($.parseHTML(welcomeHtml));
-
-				$("#messageArea").on("submit", function(event) {
-					event.preventDefault();
-					const date = new Date();
-					const hour = date.getHours();
-					const minute = String(date.getMinutes()).padStart(2, '0');
-					const str_time = hour + ":" + minute;
-					var rawText = $("#text").val();
-
-					// Prepend category context to the message sent to backend
-					var msgToSend = rawText;
-					if (selectedCategory) {
-						msgToSend = "[Patient selected category: " + selectedCategory + "] " + rawText;
-					}
-
-					var userHtml = '<div class="d-flex justify-content-end mb-4"><div class="msg_cotainer_send">' + rawText + '<span class="msg_time_send">'+ str_time + '</span></div><div class="img_cont_msg"><img src="https://i.ibb.co/d5b84Xw/Untitled-design.png" class="rounded-circle user_img_msg"></div></div>';
-					
-					$("#text").val("");
-					$("#messageFormeight").append(userHtml);
-
-					// Show typing indicator
-					var typingHtml = '<div class="d-flex justify-content-start mb-4" id="typing-indicator"><div class="img_cont_msg"><img src="https://cdn-icons-png.flaticon.com/512/387/387569.png" class="rounded-circle user_img_msg"></div><div class="msg_cotainer"><div class="typing-dots"><span></span><span></span><span></span></div></div></div>';
-					$("#messageFormeight").append(typingHtml);
-					$("#messageFormeight").scrollTop($("#messageFormeight")[0].scrollHeight);
-
-					$.ajax({
-						data: {
-							msg: msgToSend,	
-						},
-						type: "POST",
-						url: "/get",
-					}).done(function(data) {
-						$('#typing-indicator').remove();
-						var botHtml = '<div class="d-flex justify-content-start mb-4"><div class="img_cont_msg"><img src="https://cdn-icons-png.flaticon.com/512/387/387569.png" class="rounded-circle user_img_msg"></div><div class="msg_cotainer">' + data + '<span class="msg_time">' + str_time + '</span></div></div>';
-						$("#messageFormeight").append($.parseHTML(botHtml));
-						$("#messageFormeight").scrollTop($("#messageFormeight")[0].scrollHeight);
-					}).fail(function() {
-						$('#typing-indicator').remove();
-						var errorHtml = '<div class="d-flex justify-content-start mb-4"><div class="img_cont_msg"><img src="https://cdn-icons-png.flaticon.com/512/387/387569.png" class="rounded-circle user_img_msg"></div><div class="msg_cotainer">Sorry, something went wrong. Please try again.<span class="msg_time">' + str_time + '</span></div></div>';
-						$("#messageFormeight").append($.parseHTML(errorHtml));
-					});
-				});
-			});
-		</script>
-        
-    </body>
 </html>

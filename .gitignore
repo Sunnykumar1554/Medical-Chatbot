@@ -208,3 +208,13 @@ __marimo__/
 
 # Large CSV data file
 data/ai-medical-chatbot.csv
+
+# Environment variables (API keys)
+.env
+
+# Virtual environment
+medibot/
+
+# Research notebooks (may contain API keys)
+research/
+
