@@ -1,15 +1,56 @@
+# Secrets & environment
 .env
+.env.*
+
+# Version control
 .git
 .github
 .gitignore
-__pycache__
-*.pyc
+.gitattributes
+
+# Virtual environments
 medibot/
+venv/
+.venv/
+env/
+
+# Research & notebooks (may contain API keys)
 research/
-data/
+*.ipynb
+
+# Python cache & build artifacts
+__pycache__/
+*.py[cod]
+*.egg-info/
 medical_chatbot.egg-info/
-*.egg-info
+build/
+dist/
+
+# IDE & editor files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Docker files (no need to copy into image)
+Dockerfile
+docker-compose*.yml
+.dockerignore
+
+# Documentation (not needed at runtime)
 README.md
 LICENSE
-Dockerfile
-.dockerignore
+docs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Test & coverage
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Large data files (already indexed in Pinecone)
+data/*.csv
